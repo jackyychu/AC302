@@ -21,6 +21,14 @@ var itemX;
 var itemY;
 var itemSize = 50;
 
+//ghost
+var threatX;
+var threatY;
+var threatSize;
+var threatCollision = false;
+
+var gameOver = false;
+
 var score = 0;
 var collision = false;
 
@@ -30,10 +38,17 @@ function drawPacman(){
 	ctx.drawImage(pacman, x, y, size, size)
 }
 
+
 function drawFruit(){
 	var fruit = new Image();
 	fruit.src= "peach.png"
 	ctx.drawImage(fruit, itemX, itemY, itemSize, itemSize)
+}
+
+function drawGhost(){
+	var threat = new Image();
+	threat.src= "ghost.png"
+	ctx.drawImage(threat, threatX, threatY, threatSize, threatSize)
 }
 
 function clear(){
@@ -46,6 +61,10 @@ function init(){
 	//random position for the item
 	itemX = Math.floor(Math.random()*(WIDTH - itemSize));
 	itemY = Math.floor(Math.random()*(HEIGHT - itemSize));
+//random ghost position
+threatX = Math.floor(Math.random()*(WIDTH - threatSize));
+	threatY = Math.floor(Math.random()*(HEIGHT - threatSize));
+
 
 	//keyboard event
 	window.onkeydown = keydownControl;
@@ -79,8 +98,11 @@ function keydownControl(e){
 
 function draw(){
 	clear();
-	drawPacman();
+
+	if (gameOver = false){
+		drawPacman();
 	drawFruit();
+	drawGhost();
 
 	//Bounce of wall
 
@@ -91,7 +113,10 @@ function draw(){
 	if (y + speedY < 0 || y + speedY + size > HEIGHT){
 		speedY = -speedY;
 	}
-
+else{
+	ctx.font = "40px Impact";
+	ctx.fillText("GAME OVER", 200,300);
+}
 
 
 	x += speedX;
@@ -100,15 +125,26 @@ function draw(){
 	
 collisionCheck();
 collisionHandle();
+followPlayer();
+	}
+	
 
 }
 
 
-function collisionCheck(){     if((x + size >= itemX) && (itemX +
+function collisionCheck(){     
+if((x + size >= itemX) && (itemX +
 itemSize >= x) && (y + size >= itemY) && (itemY + itemSize >= y)) {
 	collision = true;
 } else {
 	collision = false;
+}
+
+if((x + size >= threatX) && (itemX +
+threatSize >= x) && (y + size >= threatY) && (threatY + threatSize >= y)) {
+	threatCollision = true;
+} else {
+	threatCollision = false;
 }
 
 }
@@ -122,9 +158,29 @@ score +=1;
 displayScore.textContent = score;
 
 	}
+if (threatCollision){
+	gameOver = true;
+}
 
 }
 
+function followPlayer(){
+	if (threatX < x){
+		threatX += 1;
+	}
+
+	if (threatX > x){
+		threatX -= 1;
+	}
+
+	if (threatY < y){
+		threatY += 1;
+	}
+
+	if (threatY > y){
+		threatY -= 1;
+	}
+}
 
 
 
