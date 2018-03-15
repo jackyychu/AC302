@@ -9,7 +9,7 @@ function preload(){
 	game.load.image("ground", "assets/platform.png");
 	game.load.image("star", "assets/star.png");
 	game.load.spritesheet("dude", "assets/dude.png", 32, 48);
-	game.load.spritesheet("enemey1", "assets/enemey1.png", 32, 32);
+	game.load.spritesheet("enemey1", "assets/baddie.png", 32, 32);
 }
 
 function create(){
