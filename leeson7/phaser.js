@@ -107,7 +107,7 @@ function update(){
 
 	moveenemey1();
 
-	if (lives <= 0){
+	if (life <= 0){
 		endGame();
 	}
 }
@@ -140,8 +140,8 @@ function collectStar(player,star){
 }
 
 function loseLife(player, enemey1){
-	lives -=1;
-	lifetext.setText(lives);
+	life -=1;
+	lifetext.setText(life);
 
 	enemey1.kill();
 	enemey1.reset(10,20);
